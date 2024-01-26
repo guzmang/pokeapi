@@ -5,7 +5,7 @@ const PokemonController = require('../controllers/pokemon');
 
 const router = express.Router();
 
-router.get('/', PokemonController.init);
+router.get('/:page', PokemonController.init);
 router.get('/name/:name', PokemonController.searchByName);
 router.get('/type/:type', PokemonController.searchByType);
 router.get('/*', PokemonController.invalid);

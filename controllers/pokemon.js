@@ -11,8 +11,10 @@ const controller = {
     },
 
     init: async function(req, res) {
-        let page = 0;
-        const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=10&offset=${ page * 10 }`);
+
+
+        console.log(req.params.page)
+        const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=10&offset=${ req.params.page * 10 }`);
         const urls = data.results.map(pokemon => pokemon.url);
 
         const response = await PokemonUtils.executeRequestsInOrder(urls);
