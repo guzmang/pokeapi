@@ -20,7 +20,6 @@ const controller = {
         const response = await PokemonUtils.executeRequestsInOrder(urls);
 
         return res.status(200).send(
-            //data.results
             response
         );
     },
@@ -44,6 +43,21 @@ const controller = {
             const response = await axios.get(`https://pokeapi.co/api/v2/type/${req.params.type}`);
             return res.status(200).send(
                 response.data.pokemon
+            )
+        }
+        catch(e) {
+            return res.status(404).send(
+                'Not found'
+            )
+        }
+    },
+
+    getTypes: async function(req, res) {
+        try {
+            const response = await axios.get(`https://pokeapi.co/api/v2/type`);
+            console.log("response", response.data);
+            return res.status(200).send(
+                response.data.results
             )
         }
         catch(e) {
