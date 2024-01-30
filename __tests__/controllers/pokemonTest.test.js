@@ -211,4 +211,17 @@ describe('GET operations from pokemon controller', () => {
         expect(res.send).toHaveBeenCalledWith('Not found');
     });
 
+    test('it should return a status 404 with request to a invalid page', async () => {
+        const req = {};
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            send: jest.fn()
+        };
+
+        await invalid(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalledWith('Not found');
+    });
+
 });
