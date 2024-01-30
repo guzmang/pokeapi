@@ -107,6 +107,65 @@ describe('GET operations from pokemon controller', () => {
         expect(res.send).toHaveBeenCalledWith('Not found');
     });
 
+    test('it should return a Pokemon by name with status 200', async () => {
+        const req = {
+            params: {
+                type: '1'
+            }
+        };
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            send: jest.fn()
+        };
+        const mockResponse = {
+            data: {
+                pokemon: [
+                    {
+                        "pokemon": {
+                            "name": "pidgey",
+                            "url": "https://pokeapi.co/api/v2/pokemon/16/"
+                        },
+                        "slot": 1
+                    },
+                    {
+                        "pokemon": {
+                            "name": "pidgeotto",
+                            "url": "https://pokeapi.co/api/v2/pokemon/17/"
+                        },
+                        "slot": 1
+                    }
+                ]
+            }
+        };
+
+        jest.spyOn(axios, 'get').mockResolvedValue(mockResponse);   // Simulates success response
+
+        await searchByType(req, res);
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.send).toHaveBeenCalled();
+        expect(res.send).toHaveBeenCalledWith(mockResponse.data.pokemon);
+    });
+
+    test('it should return a status 404 with searchByType', async () => {
+        const req = {
+            params: {
+                type: '1'
+            }
+        };
+        const res = {
+            status: jest.fn().mockReturnThis(),
+            send: jest.fn()
+        };
+        
+        jest.spyOn(console, 'error').mockReturnValue();
+        jest.spyOn(axios, 'get').mockRejectedValue(new Error('Fake error'));
+
+        await searchByType(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.send).toHaveBeenCalledWith('Not found');
+    });
+
     test('it should return a list of Pokemon types with status 200', async () => {
         const req = {};
         const res = {
