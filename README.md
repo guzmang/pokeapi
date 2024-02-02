@@ -11,7 +11,7 @@ npm install
 The next step is start the server, so run:
 
 ```
-node index
+node app
 ```
 
 Once the server is up, you can make a GET request. The setting for the port is 3000. For example:

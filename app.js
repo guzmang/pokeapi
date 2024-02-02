@@ -1,17 +1,6 @@
-'use strict'
 
-const express = require('express');
-const cors = require('cors');
-const app = express();
+const Server = require('./models/server');
 
-// Loading routes files
-const pokemon_routes = require('./routes/pokemon');
+const server = new Server();
 
-app.use(cors());
-
-// Routes
-app.use('/api', pokemon_routes);
-app.use('/*', (req, res) => { res.status(404).send('Not found') });
-
-// Exports
-module.exports = app;
+server.listen();
