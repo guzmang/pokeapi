@@ -8,7 +8,8 @@ class Server {
         this.app  = express();
         this.port = process.env.PORT;
 
-        this.pokemonPath = '/api';
+        this.authPath     = '/api/auth';
+        this.pokemonPath  = '/api';
 
         // Middlewares
         this.middlewares();
@@ -18,11 +19,17 @@ class Server {
     }
 
     middlewares() {
+
         // CORS
         this.app.use( cors() );
+
+        // Lectura y parseo del body
+        this.app.use( express.json() );
+        
     }
 
     routes() {
+        this.app.use( this.authPath, require('../routes/auth'));
         this.app.use( this.pokemonPath, require('../routes/pokemon'));
         this.app.use('/*', (req, res) => { res.status(404).send('Not found') });
     }
